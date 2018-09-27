@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -eu
+
+cd /tmp
+
+export GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+
+git clone --depth=1 "$1" && cd "$(basename $_ .git)"
+
+git archive --format=tar HEAD | gzip > "/output/$(basename $(git rev-parse --show-toplevel)).tar.gz"
